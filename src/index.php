@@ -1,9 +1,18 @@
+<?php
+session_start();
+
+
+if (!isset($_SESSION['id_usuario'])) {
+    header("Location: login.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Saber Hacer U3 DWI</title>
     <?php  
         include('template/head.php');
     ?>
@@ -24,7 +33,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="post d-flex flex-column-fluid" id="principal">
+                <!-- Agregamos p-6 p-lg-10 para despegar el contenido superior y lateralmente -->
+                <div class="post d-flex flex-column-fluid p-6 p-lg-10" id="principal">
                     <div id="kt_content_container" class="container-xxl">
                         <?php  
                             include('system/principal.php');
