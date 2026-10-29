@@ -8,9 +8,9 @@ $(document).ready(function(){
           
 	});
 
-	$("#filtro_categorias").click(function(e){
+	$("#cat_productos").click(function(e){
   		$("#principal").fadeIn('400');
-		$("#principal").load('system/prueba.php',function(){			
+		$("#principal").load('system/cat_productos.php',function(){			
 		});
           
 	});

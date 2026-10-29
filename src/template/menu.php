@@ -189,7 +189,7 @@ $id_rol_usuario = $_SESSION['id_rol'] ?? 0;
 										<!--begin:Menu item-->
 										<div class="menu-item">
 											<!--begin:Menu link-->
-											<a class="menu-link" href="pages/social/feeds.html">
+											<a class="menu-link" href="javascript:;" id="cat_productos">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
 												</span>
