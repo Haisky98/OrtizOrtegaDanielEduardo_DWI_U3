@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/../class/class_productos.php';
+require_once __DIR__ . '/../class/04.class_productos.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header("Location: ../index.php");
@@ -27,8 +27,6 @@ $ruta_db = $imagen_actual;
 if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
     $fileTmpPath   = $_FILES['imagen']['tmp_name'];
     $fileName      = $_FILES['imagen']['name'];
-    $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-    $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
 
     if (in_array($fileExtension, $allowedExtensions)) {
         $newFileName = md5(time() . $fileName) . '.' . $fileExtension;

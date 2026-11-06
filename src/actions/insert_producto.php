@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/../class/class_productos.php';
+require_once __DIR__ . '/../class/04.class_productos.php';
 
 // Validar método POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/../class/class_productos.php';
+require_once __DIR__ . '/../class/04.class_productos.php';
 
 $id_producto = intval($_POST['id_producto'] ?? $_GET['id_producto'] ?? 0);
 

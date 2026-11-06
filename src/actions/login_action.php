@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/../class/class_usuarios.php';
+require_once __DIR__ . '/../class/02.class_usuarios.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');

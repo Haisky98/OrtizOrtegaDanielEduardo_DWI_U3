@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/class_db.php';
+require_once __DIR__ . '/00.class_db.php';
 
 class class_usuarios extends class_db {
 
