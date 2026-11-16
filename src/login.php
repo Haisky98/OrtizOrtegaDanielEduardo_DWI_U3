@@ -1,5 +1,10 @@
 <?php
 session_start();
+// Si ya hay una sesión activa, lo podemos redirigir directo al dashboard o inicio
+if (isset($_SESSION['id_usuario'])) {
+    header("Location: index.php"); // Cambia index.php por tu página principal
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -32,25 +37,18 @@ session_start();
                         <!--begin::Wrapper-->
                         <div class="w-lg-500px p-10">
                             
-                            <!-- Mensajes de error opcionales -->
-                            <?php if (isset($_GET['error'])): ?>
-                                <div class="alert alert-danger text-center mb-5">
-                                    <?php 
-                                        if ($_GET['error'] == 'campos_vacios') echo 'Por favor, llene todos los campos.';
-                                        elseif ($_GET['error'] == 'credenciales_invalidas') echo 'Correo o contraseña incorrectos.';
-                                        elseif ($_GET['error'] == 'usuario_inactivo') echo 'El usuario se encuentra inactivo.';
-                                    ?>
-                                </div>
-                            <?php endif; ?>
+                            <!-- Contenedor para Alertas Dinámicas con JavaScript -->
+                            <div id="alerta-contenedor"></div>
 
-                            <?php if (isset($_GET['registro']) && $_GET['registro'] == 'exitoso'): ?>
+                            <!-- Alerta estática si viene redirigido desde el registro -->
+                            <?php if (isset($_GET['registro']) && $_GET['registro'] == 'exito'): ?>
                                 <div class="alert alert-success text-center mb-5">
-                                    ¡Registro exitoso! Ya puede iniciar sesión.
+                                    ¡Cuenta creada con éxito! Por favor, inicia sesión con tus datos.
                                 </div>
                             <?php endif; ?>
 
-                            <!--begin::Form (Conectado a actions/login_action.php) -->
-                            <form class="form w-100" method="POST" action="actions/login_action.php">
+                            <!--begin::Form (Apunta a tu action JSON) -->
+                            <form class="form w-100" id="form_login" method="POST" action="actions/05.login_usuario.php">
                                 <!--begin::Heading-->
                                 <div class="text-center mb-11">
                                     <h1 class="text-gray-900 fw-bolder mb-3">Acceso al Sistema</h1>
@@ -72,6 +70,8 @@ session_start();
                                 <div class="d-grid mb-10">
                                     <button type="submit" id="kt_sign_in_submit" class="btn btn-primary">
                                         <span class="indicator-label">Iniciar Sesión</span>
+                                        <span class="indicator-progress">Por favor espere... 
+                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                                     </button>
                                 </div>
                                 <!--end::Submit button-->
@@ -101,11 +101,74 @@ session_start();
             <!--end::Authentication - Sign-in-->
         </div>
         <!--end::Main-->
+
         <!--begin::Javascript-->
         <script>var hostUrl = "assets/";</script>
         <script src="assets/plugins/global/plugins.bundle.js"></script>
         <script src="assets/js/scripts.bundle.js"></script>
         <!--end::Javascript-->
+
+        <!-- Script para manejar el envío del formulario vía Fetch y conectar con tu action -->
+        <script>
+            document.getElementById('form_login').addEventListener('submit', function(e) {
+                e.preventDefault(); // Evitamos que recargue la página de forma tradicional
+
+                const form = this;
+                const submitButton = document.getElementById('kt_sign_in_submit');
+                const alertaContenedor = document.getElementById('alerta-contenedor');
+
+                // Limpiar alertas previas
+                alertaContenedor.innerHTML = '';
+
+                // Activar animación de carga en el botón (estilo Metronic)
+                submitButton.setAttribute('data-kt-indicator', 'on');
+                submitButton.disabled = true;
+
+                const formData = new FormData(form);
+
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(async response => {
+                    const data = await response.json();
+                    return { status: response.status, body: data };
+                })
+                .then(res => {
+                    submitButton.removeAttribute('data-kt-indicator');
+                    submitButton.disabled = false;
+
+                    if (res.body.success) {
+                        // Si el login es exitoso, mostramos mensaje verde y redirigimos
+                        alertaContenedor.innerHTML = `
+                            <div class="alert alert-success text-center mb-5">
+                                ${res.body.message}. Redirigiendo...
+                            </div>
+                        `;
+                        setTimeout(() => {
+                            window.location.href = 'index.php'; // Redirige a tu panel o dashboard principal
+                        }, 1000);
+                    } else {
+                        // Si hubo un error (credenciales inválidas o cuenta inactiva)
+                        alertaContenedor.innerHTML = `
+                            <div class="alert alert-danger text-center mb-5">
+                                ${res.body.error}
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    submitButton.removeAttribute('data-kt-indicator');
+                    submitButton.disabled = false;
+                    alertaContenedor.innerHTML = `
+                        <div class="alert alert-danger text-center mb-5">
+                            Ocurrió un error de conexión con el servidor.
+                        </div>
+                    `;
+                    console.error('Error:', error);
+                });
+            });
+        </script>
     </body>
     <!--end::Body-->
 </html>

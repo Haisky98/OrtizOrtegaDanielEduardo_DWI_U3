@@ -44,7 +44,7 @@ session_start();
                             <?php endif; ?>
 
                             <!--begin::Form (Conectado a actions/registro_action.php) -->
-                            <form class="form w-100" method="POST" action="actions/registro_action.php">
+                            <form class="form w-100" method="POST" action="actions/02.create_usuario.php">
                                 <!--begin::Heading-->
                                 <div class="text-center mb-11">
                                     <h1 class="text-gray-900 fw-bolder mb-3">Crear Cuenta</h1>

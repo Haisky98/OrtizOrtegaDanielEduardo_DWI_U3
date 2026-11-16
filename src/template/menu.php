@@ -6,7 +6,7 @@ $id_rol_usuario = $_SESSION['id_rol'] ?? 0;
 					<!--begin::Brand-->
 					<div class="aside-logo flex-column-auto" id="kt_aside_logo">
 						<!--begin::Logo-->
-						<a href="index.html">
+						<a href="index.php">
 							<img alt="Logo" src="assets/media/logos/demo13.svg" class="h-15px logo" />
 						</a>
 						<!--end::Logo-->
@@ -82,7 +82,7 @@ $id_rol_usuario = $_SESSION['id_rol'] ?? 0;
 										<!--begin:Menu item-->
 										<div class="menu-item">
 											<!--begin:Menu link-->
-											<a class="menu-link" href="pages/user-profile/overview.html">
+							<a class="menu-link" href="javascript:;" id="carrito_compras">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
 												</span>
@@ -94,7 +94,7 @@ $id_rol_usuario = $_SESSION['id_rol'] ?? 0;
 										<!--begin:Menu item-->
 										<div class="menu-item">
 											<!--begin:Menu link-->
-											<a class="menu-link" href="pages/user-profile/projects.html">
+							<a class="menu-link" href="javascript:;" id="mis_pedidos">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
 												</span>
@@ -125,7 +125,7 @@ $id_rol_usuario = $_SESSION['id_rol'] ?? 0;
 										<!--begin:Menu item-->
 										<div class="menu-item">
 											<!--begin:Menu link-->
-											<a class="menu-link" href="account/overview.html">
+							<a class="menu-link" href="javascript:;" id="datos_personales">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
 												</span>
@@ -158,7 +158,7 @@ $id_rol_usuario = $_SESSION['id_rol'] ?? 0;
 										<!--begin:Menu item-->
 										<div class="menu-item">
 											<!--begin:Menu link-->
-											<a class="menu-link" href="authentication/general/welcome.html">
+							<a class="menu-link" href="javascript:;" id="dashboard_ventas">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
 												</span>
@@ -201,7 +201,7 @@ $id_rol_usuario = $_SESSION['id_rol'] ?? 0;
 										<!--begin:Menu item-->
 										<div class="menu-item">
 											<!--begin:Menu link-->
-											<a class="menu-link" href="pages/social/activity.html">
+							<a class="menu-link" href="javascript:;" id="cat_categorias">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
 												</span>
@@ -231,7 +231,7 @@ $id_rol_usuario = $_SESSION['id_rol'] ?? 0;
 										<!--begin:Menu item-->
 										<div class="menu-item">
 											<!--begin:Menu link-->
-											<a class="menu-link" href="pages/blog/home.html">
+							<a class="menu-link" href="javascript:;" id="administrar_pedidos">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
 												</span>
@@ -243,7 +243,7 @@ $id_rol_usuario = $_SESSION['id_rol'] ?? 0;
 										<!--begin:Menu item-->
 										<div class="menu-item">
 											<!--begin:Menu link-->
-											<a class="menu-link" href="pages/blog/post.html">
+							<a class="menu-link" href="javascript:;" id="control_stock">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
 												</span>
@@ -276,7 +276,7 @@ $id_rol_usuario = $_SESSION['id_rol'] ?? 0;
 											<!--begin:Menu item-->
 											<div class="menu-item">
 												<!--begin:Menu link-->
-												<a class="menu-link" href="pages/faq/classic.html">
+								<a class="menu-link" href="javascript:;" id="dashboard_sistema">
 													<span class="menu-bullet">
 														<span class="bullet bullet-dot"></span>
 													</span>
@@ -305,7 +305,7 @@ $id_rol_usuario = $_SESSION['id_rol'] ?? 0;
 											<!--begin:Menu item-->
 											<div class="menu-item">
 												<!--begin:Menu link-->
-												<a class="menu-link" href="pages/pricing.html">
+								<a class="menu-link" href="javascript:;" id="gestion_usuarios">
 													<span class="menu-bullet">
 														<span class="bullet bullet-dot"></span>
 													</span>
@@ -317,7 +317,7 @@ $id_rol_usuario = $_SESSION['id_rol'] ?? 0;
 											<!--begin:Menu item-->
 											<div class="menu-item">
 												<!--begin:Menu link-->
-												<a class="menu-link" href="pages/pricing/table.html">
+								<a class="menu-link" href="javascript:;" id="catalogo_roles">
 													<span class="menu-bullet">
 														<span class="bullet bullet-dot"></span>
 													</span>

@@ -1,72 +1,29 @@
-<?php
-// Incluimos la lógica desde actions para obtener los datos
-require_once __DIR__ . '/../actions/get_productos.php';
-?>
-
-<!--begin::Toolbar-->
-<div class="toolbar mb-5 mb-lg-7" id="kt_toolbar">
-    <div class="page-title d-flex flex-column me-3">
-        <h1 class="d-flex text-gray-900 fw-bolder fs-3 align-items-center my-1">Catálogo de Productos</h1>
-        <ul class="breadcrumb breadcrumb-dot fw-semibold text-gray-600 fs-7 my-1">
-            <li class="breadcrumb-item text-muted">Dashboard</li>
-            <li class="breadcrumb-item text-muted">Tienda</li>
-        </ul>
+<?php if (session_status() !== PHP_SESSION_ACTIVE) session_start(); $id_rol_usuario = $_SESSION['id_rol'] ?? 0; ?>
+<div id="kt_content_container" class="container-xxl py-5">
+    <div class="d-flex flex-wrap flex-stack mb-7"><div><h1 class="fw-bold text-gray-900 mb-2">Dashboard</h1><div class="text-muted fs-6">Resumen general de la tienda</div></div><?php if (in_array((int)$id_rol_usuario, [1, 2], true)): ?><a href="javascript:;" id="ir_catalogo_productos" class="btn btn-primary"><i class="ki-outline ki-element-11 fs-2"></i>Ver catálogo</a><?php endif; ?></div>
+    <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+        <div class="col-sm-6 col-xl-3"><div class="card card-flush h-100"><div class="card-body d-flex flex-column justify-content-between"><span class="text-gray-500 fw-semibold fs-6">Productos activos</span><span id="total_productos" class="fs-2hx fw-bold text-gray-900">0</span><span class="text-success fw-semibold fs-7"><i class="ki-outline ki-arrow-up fs-5"></i> Disponibles en catálogo</span></div></div></div>
+        <div class="col-sm-6 col-xl-3"><div class="card card-flush h-100"><div class="card-body d-flex flex-column justify-content-between"><span class="text-gray-500 fw-semibold fs-6">Categorías</span><span id="total_categorias" class="fs-2hx fw-bold text-gray-900">0</span><span class="text-muted fw-semibold fs-7">Categorías registradas</span></div></div></div>
+        <div class="col-sm-6 col-xl-3"><div class="card card-flush h-100"><div class="card-body d-flex flex-column justify-content-between"><span class="text-gray-500 fw-semibold fs-6">Unidades en stock</span><span id="total_stock" class="fs-2hx fw-bold text-gray-900">0</span><span class="text-primary fw-semibold fs-7"><i class="ki-outline ki-box fs-5"></i> Inventario actual</span></div></div></div>
+        <?php if ($id_rol_usuario == 1 || $id_rol_usuario == 2): ?>
+        <div class="col-sm-6 col-xl-3"><div class="card card-flush h-100"><div class="card-body d-flex flex-column justify-content-between"><span class="text-gray-500 fw-semibold fs-6">Valor del inventario</span><span id="valor_inventario" class="fs-2hx fw-bold text-gray-900">$0.00</span><span class="text-muted fw-semibold fs-7">Precio por stock disponible</span></div></div></div>
+        <?php endif; ?>
     </div>
+    <div class="card card-flush"><div class="card-header pt-7"><h3 class="card-title align-items-start flex-column"><span class="card-label fw-bold text-gray-900">Productos destacados</span><span class="text-muted mt-1 fw-semibold fs-6">Productos activos disponibles en tu catálogo</span></h3></div><div class="card-body pt-5"><div id="productos_destacados" class="row g-6 g-xl-9"><div class="col-12 text-center text-muted py-10">Cargando productos...</div></div></div></div>
 </div>
-<!--end::Toolbar-->
-
-<!--begin::Row de Cards Dinámicas-->
-<div class="row g-5 g-xl-8">
-    <?php if (!empty($lista_productos)): ?>
-        <?php foreach ($lista_productos as $prod): ?>
-            <div class="col-md-6 col-xl-4">
-                <div class="card card-flush h-xl-100 d-flex flex-column justify-content-between">
-                    <!--begin::Body-->
-                    <div class="card-body text-center pt-9 pb-5">
-                        
-                        <!-- Imagen Grande Centrada -->
-                        <div class="mb-7">
-                            <img src="<?= !empty($prod['imagen']) ? htmlspecialchars($prod['imagen']) : 'assets/media/products/default.png' ?>" 
-                                 alt="<?= htmlspecialchars($prod['nombre']) ?>" 
-                                 class="rounded w-200px h-200px object-fit-cover shadow-sm mx-auto d-block" />
-                        </div>
-
-                        <!-- Nombre del Producto -->
-                        <a href="#" class="text-gray-900 fw-bold fs-3 mb-3 text-hover-primary d-block">
-                            <?= htmlspecialchars($prod['nombre']) ?>
-                        </a>
-
-                        <!-- Precio y Categoría -->
-                        <div class="d-flex justify-content-center align-items-center flex-wrap gap-2 mb-4">
-                            <span class="badge badge-success fs-5 fw-bold px-4 py-2">
-                                $<?= number_format($prod['precio'], 2) ?> MXN
-                            </span>
-                            <span class="badge badge-light-primary fs-7 px-3 py-2">
-                                <?= htmlspecialchars($prod['categoria']) ?>
-                            </span>
-                        </div>
-
-                        <!-- Stock -->
-                        <div class="text-gray-600 fs-6">
-                            Stock disponible: <strong class="text-gray-900"><?= $prod['stock'] ?></strong>
-                        </div>
-
-                    </div>
-                    <!--end::Body-->
-                    
-                    <!-- Footer con Botón Ver Detalles -->
-                    <div class="card-footer border-0 pt-0 pb-7 px-9 text-center">
-                        <button class="btn btn-sm btn-light-primary w-100 py-3">Ver Detalles</button>
-                    </div>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <div class="col-12">
-            <div class="alert alert-warning text-center">
-                No hay productos disponibles en este momento.
-            </div>
-        </div>
-    <?php endif; ?>
-</div>
-<!--end::Row-->
+<script>
+(function () {
+    function cargarDashboard() {
+        Promise.all([fetch('actions/12.read_productos.php').then(r => r.json()), fetch('actions/09.read_categorias.php').then(r => r.json())]).then(([productos, categorias]) => {
+            const lista = productos.success && Array.isArray(productos.data) ? productos.data : [], activos = lista.filter(producto => String(producto.estatus) === '1'), categoriasActivas = categorias.success && Array.isArray(categorias.data) ? categorias.data.filter(categoria => String(categoria.estatus) === '1') : [];
+            const stock = activos.reduce((total, producto) => total + Number(producto.stock || 0), 0), valor = activos.reduce((total, producto) => total + (Number(producto.precio || 0) * Number(producto.stock || 0)), 0);
+            document.getElementById('total_productos').textContent = activos.length; document.getElementById('total_categorias').textContent = categoriasActivas.length; document.getElementById('total_stock').textContent = stock; const valorInventario = document.getElementById('valor_inventario'); if (valorInventario) valorInventario.textContent = '$' + valor.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            const contenedor = document.getElementById('productos_destacados'), destacados = activos.slice(0, 6);
+            if (!destacados.length) { contenedor.innerHTML = '<div class="col-12 text-center text-muted py-10">No hay productos activos registrados.</div>'; return; }
+            contenedor.innerHTML = destacados.map(producto => '<div class="col-sm-6 col-xl-4"><div class="card card-flush h-100"><div class="card-body p-5"><a href="javascript:;" class="producto-detalle" data-id-producto="' + producto.id_producto + '"><div class="text-center mb-5"><img src="' + (producto.imagen || 'assets/media/products/default.png') + '" class="mw-100 h-150px object-fit-contain" alt="Producto" /></div><div class="d-flex flex-column"><span class="text-gray-800 fw-bold fs-5">' + producto.nombre + '</span><span class="text-muted fs-7 mt-1">' + (producto.categoria_nombre || 'Sin categoría') + '</span><div class="d-flex justify-content-between align-items-center mt-5"><span class="text-primary fw-bold fs-4">$' + Number(producto.precio || 0).toFixed(2) + '</span><span class="badge badge-light-' + (Number(producto.stock) > 0 ? 'success' : 'danger') + '">' + producto.stock + ' en stock</span></div></div></a></div></div></div>').join('');
+            $('.producto-detalle').on('click', function () { $('#principal').load('system/03.detalle_producto.php?id_producto=' + $(this).data('id-producto')); });
+        }).catch(error => { console.error('Error al cargar el dashboard:', error); document.getElementById('productos_destacados').innerHTML = '<div class="col-12 text-center text-danger py-10">No se pudieron cargar los productos.</div>'; });
+    }
+    const botonCatalogo = document.getElementById('ir_catalogo_productos'); if (botonCatalogo) botonCatalogo.addEventListener('click', function () { $('#principal').load('system/01.cat_productos.php'); }); cargarDashboard();
+})();
+</script>
